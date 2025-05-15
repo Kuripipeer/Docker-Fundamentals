@@ -23,5 +23,5 @@ jobs:
       
       - name: Publicar imagen
         run: |
-          docker push kuripipeer/docker-fundamentals${{ github.sha }}
+          docker push kuripipeer/docker-fundamentals:${{ github.sha }}
           docker push kuripipeer/docker-fundamentals:latest
