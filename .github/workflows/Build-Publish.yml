@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-lagest
+    runs-on: ubuntu-latest
     steps:
       - name: Clone My Repository
         uses: actions/checkout@v2
@@ -16,7 +16,12 @@ jobs:
         run: docker login -u "${{ secrets.DOCKER_USER }}" -p "${{ secrets.DOCKER_PASS }}"
 
       - name: Construir imagen
-        run: docker build -t kuripipeer/docker-fundamentals:v2 .
+        run: docker build -t kuripipeer/docker-fundamentals:${{ github.sha }} .
+
+      - name: Renombrar la imagen con commit
+        run: docker tag kuripipeer/docker-fundamentals:${{ github.sha }} kuripipeer/docker-fundamentals:latest
       
       - name: Publicar imagen
-        run: docker push kuripipeer/docker-fundamentals:v2
+        run: |
+          docker push kuripipeer/docker-fundamentals${{ github.sha }}
+          docker push kuripipeer/docker-fundamentals:latest
